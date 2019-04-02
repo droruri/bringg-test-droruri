@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import {connect} from "react-redux";
 import {deleteDriverById, toggleDriverActivity} from "../state-management/actions/driver.actions";
 import {setCoordinates, setDriver} from "../state-management/actions/drivers-map.actions";
+import {getChosenDriver} from "../state-management/selectors/drivers-map.selector";
 
 class DriverContainer extends Component {
 
@@ -14,6 +15,12 @@ class DriverContainer extends Component {
     };
 
     componentDidMount() {
+        this.setState({
+            driver: this.props.driver
+        })
+    }
+
+    componentWillReceiveProps() {
         this.setState({
             driver: this.props.driver
         })
@@ -49,10 +56,10 @@ class DriverContainer extends Component {
                                 alt="new"/>
                         </Col>
                         <Col xs={10}>
-                            <div style={{display:'flex', justifyContent:'space-between'}}>
+                            <div style={styles.bottomMenuWrapper}>
                                 <h4>{this.state.driver.name.first} {this.state.driver.name.last}</h4>
                                 <Button variant="danger" size="sm"
-                                        onClick={() => this.deleteDriver()}> Delete Driver </Button>
+                                        onClick={this.deleteDriver}>Delete Driver</Button>
                             </div>
 
                             <br/>
@@ -71,8 +78,13 @@ class DriverContainer extends Component {
                                                 onClick={() => this.toggleActivity(true)}>
                                             Mark as Active </Button>
                                     }
-                                    <Button variant="success" size="sm" style={styles.driverButton}
-                                            onClick={() => this.props.setDriver(this.state.driver)}>Show On Map</Button>
+                                    {(this.props.chosenDriver == null)?
+                                        <Button variant="success" size="sm" style={styles.driverButton}
+                                                onClick={() => this.props.setDriver(this.state.driver)}>Show On Map</Button>:
+                                        <Button variant="danger" size="sm" style={styles.driverButton}
+                                                onClick={() => this.props.setDriver(null)}>Clear</Button>
+                                    }
+
                                     <Button variant="primary" size="sm" style={styles.driverButton}
                                             onClick={this.setCoordinates}>Location</Button>
 
@@ -93,7 +105,14 @@ const styles = {
     tasksLabel:{
         marginTop: 'auto',
         marginBottom: 'auto'
-    }
+    },
+    bottomMenuWrapper:{display:'flex', justifyContent:'space-between'}
+};
+
+const mapStateToProps = state => {
+    return {
+        chosenDriver: getChosenDriver(state)
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -105,5 +124,5 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export const Driver = connect(null, mapDispatchToProps)(DriverContainer);
+export const Driver = connect(mapStateToProps, mapDispatchToProps)(DriverContainer);
 
