@@ -5,3 +5,7 @@ export const getChosenCoordinates = (state) => {
 export const getChosenDriver = (state) => {
     return state.driversMap.driver
 };
+
+export const getChosenTask = (state) => {
+    return state.driversMap.task
+};
