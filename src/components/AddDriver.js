@@ -4,18 +4,20 @@ import {addDriver} from "../state-management/actions/driver.actions";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import {getRandomId} from "../mocks/mock-functions";
+import {MOCK_ADDRESS} from "../mocks/initial-mock-data";
 
 class AddDriverContainer extends Component {
 
     state = {
         showModal: false,
-        picture: "",
+        picture: '',
         age: '',
         firstName: '',
         lastName: '',
-        email: "",
-        latitude: "",
-        longitude: ""
+        email: '',
+        latitude: '',
+        longitude: ''
     };
 
     handleClose = () =>  {
@@ -24,7 +26,7 @@ class AddDriverContainer extends Component {
 
     handleSaveAndClose = () => {
         const driver = {
-            _id: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+            _id: getRandomId(),
             isActive: true,
             picture: this.state.picture,
             age: this.state.age,
@@ -33,7 +35,7 @@ class AddDriverContainer extends Component {
                 last: this.state.lastName
             },
             email: this.state.email,
-            address: "254 Village Court, Brogan, Guam, 9377",
+            address: MOCK_ADDRESS,
             latitude: this.state.latitude,
             longitude: this.state.longitude,
             tasks: []
@@ -46,8 +48,8 @@ class AddDriverContainer extends Component {
         this.setState({showModal: true});
     };
 
-    handleChange = e => {
-        const {name, value} = e.target;
+    handleChange = event => {
+        const {name, value} = event.target;
 
         this.setState(() => ({
             [name]: value
@@ -57,8 +59,8 @@ class AddDriverContainer extends Component {
     render() {
         return (
             <>
-                <Button variant="primary" size="sm" onClick={()=>this.handleShow()}> ADD DRIVER </Button>
-                <Modal show={this.state.showModal} onHide={()=>this.handleClose()}>
+                <Button variant="primary" size="sm" onClick={this.handleShow}>Add Driver</Button>
+                <Modal show={this.state.showModal} onHide={this.handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Adding New Driver</Modal.Title>
                     </Modal.Header>
@@ -93,6 +95,13 @@ class AddDriverContainer extends Component {
                                               value={this.state.email}
                                               onChange={this.handleChange}/>
                             </Form.Group>
+                            
+                            <Form.Group>
+                                <Form.Label>Picture URL</Form.Label>
+                                <Form.Control name="picture"
+                                              value={this.state.picture}
+                                              onChange={this.handleChange}/>
+                            </Form.Group>
                             <Form.Group>
                                 <Form.Label>Latitude</Form.Label>
                                 <Form.Control type="number"
@@ -110,7 +119,7 @@ class AddDriverContainer extends Component {
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" onClick={() => this.handleSaveAndClose()}>
+                        <Button variant="primary" onClick={this.handleSaveAndClose}>
                             Save Changes
                         </Button>
                     </Modal.Footer>
