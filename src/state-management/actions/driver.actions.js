@@ -22,3 +22,16 @@ export const toggleDriverActivity = (driverId, isActive) => ({
     driverId: driverId,
     isActive: isActive
 });
+
+export const ADD_TASK_TO_DRIVER = 'ADD_TASK_TO_DRIVER';
+export const addTaskToDriver = (driverId, task) => ({
+    type: ADD_TASK_TO_DRIVER,
+    driverId: driverId,
+    task: task
+});
+export const REMOVE_TASK_TO_DRIVER = 'REMOVE_TASK_TO_DRIVER';
+export const removeTaskToDriver = (driverId, task) => ({
+    type: REMOVE_TASK_TO_DRIVER,
+    driverId: driverId,
+    task: task
+});
