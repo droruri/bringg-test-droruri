@@ -11,7 +11,7 @@ import {getChosenDriver} from "../state-management/selectors/drivers-map.selecto
 class DriverContainer extends Component {
 
     state = {
-        driver:null
+        driver: null
     };
 
     componentDidMount() {
@@ -26,7 +26,7 @@ class DriverContainer extends Component {
         })
     }
 
-    toggleActivity(isActive){
+    toggleActivity(isActive) {
         this.props.toggleActivity(this.state.driver._id, isActive);
         const updatedDriver = Object.assign(this.state.driver, {isActive: isActive});
         this.setState({
@@ -34,16 +34,16 @@ class DriverContainer extends Component {
         })
     }
 
-    deleteDriver(){
+    deleteDriver() {
         this.props.deleteDriver(this.state.driver._id);
     }
 
-    setCoordinates = () =>{
+    setCoordinates = () => {
         this.props.setCoordinates(this.state.driver.latitude, this.state.driver.longitude)
     };
 
     render() {
-        if(this.state.driver == null){
+        if (this.state.driver == null) {
             return null;
         }
         return (
@@ -51,9 +51,13 @@ class DriverContainer extends Component {
                 <Card.Body>
                     <Row>
                         <Col xs={2}>
-                            <img
-                                src={this.state.driver.picture}
-                                alt="new"/>
+                            <div style={styles.driverVisualData}>
+                                <img
+                                    style={styles.driverPhoto}
+                                    src={this.state.driver.picture}
+                                    alt="new"/>
+                                {this.state.driver.isActive ? <span style={styles.activeDot}/> : null}
+                            </div>
                         </Col>
                         <Col xs={10}>
                             <div style={styles.bottomMenuWrapper}>
@@ -66,7 +70,7 @@ class DriverContainer extends Component {
                             <label>Age: {this.state.driver.age}</label>
                             <br/>
                             <br/>
-                            <div style={{display:'flex', justifyContent:'space-between'}}>
+                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                 <div style={styles.tasksLabel}>Tasks: {this.state.driver.tasks.length}</div>
                                 <div>
                                     {this.state.driver.isActive ?
@@ -78,9 +82,10 @@ class DriverContainer extends Component {
                                                 onClick={() => this.toggleActivity(true)}>
                                             Mark as Active </Button>
                                     }
-                                    {(this.props.chosenDriver == null)?
+                                    {(this.props.chosenDriver == null) ?
                                         <Button variant="success" size="sm" style={styles.driverButton}
-                                                onClick={() => this.props.setDriver(this.state.driver)}>Show On Map</Button>:
+                                                onClick={() => this.props.setDriver(this.state.driver)}>Show On
+                                            Map</Button> :
                                         <Button variant="danger" size="sm" style={styles.driverButton}
                                                 onClick={() => this.props.setDriver(null)}>Clear</Button>
                                     }
@@ -99,14 +104,32 @@ class DriverContainer extends Component {
 }
 
 const styles = {
-    driverButton:{
+    driverButton: {
         margin: '.375rem .375rem'
     },
-    tasksLabel:{
+    tasksLabel: {
         marginTop: 'auto',
         marginBottom: 'auto'
     },
-    bottomMenuWrapper:{display:'flex', justifyContent:'space-between'}
+    bottomMenuWrapper: {display: 'flex', justifyContent: 'space-between'},
+    driverVisualData: {display: 'flex', flexDirection: 'column'},
+    activeDot: {
+        height: '10px',
+        width: '10px',
+        backgroundColor: 'green',
+        borderRadius: '50%',
+        display: 'inline-block',
+        marginRight: 'auto',
+        marginLeft: 'auto',
+        marginTop: '5px'
+    },
+    driverPhoto:{
+        width: '32px',
+        height: '32px',
+        marginRight: 'auto',
+        marginLeft: 'auto',
+        borderRadius: '50%'
+    }
 };
 
 const mapStateToProps = state => {
