@@ -5,7 +5,6 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import {getRandomId} from "../mocks/mock-functions";
-import {MOCK_ADDRESS} from "../mocks/initial-mock-data";
 
 class AddDriverContainer extends Component {
 
@@ -17,7 +16,8 @@ class AddDriverContainer extends Component {
         lastName: '',
         email: '',
         latitude: '',
-        longitude: ''
+        longitude: '',
+        address: ''
     };
 
     handleClose = () =>  {
@@ -35,7 +35,7 @@ class AddDriverContainer extends Component {
                 last: this.state.lastName
             },
             email: this.state.email,
-            address: MOCK_ADDRESS,
+            address: this.state.address,
             latitude: this.state.latitude,
             longitude: this.state.longitude,
             tasks: []
@@ -95,11 +95,17 @@ class AddDriverContainer extends Component {
                                               value={this.state.email}
                                               onChange={this.handleChange}/>
                             </Form.Group>
-                            
+
                             <Form.Group>
                                 <Form.Label>Picture URL</Form.Label>
                                 <Form.Control name="picture"
                                               value={this.state.picture}
+                                              onChange={this.handleChange}/>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Address</Form.Label>
+                                <Form.Control name="address"
+                                              value={this.state.address}
                                               onChange={this.handleChange}/>
                             </Form.Group>
                             <Form.Group>
